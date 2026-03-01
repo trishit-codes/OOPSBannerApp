@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -6,35 +9,42 @@ public class Main {
 
     public static void displayBanner(String word) {
 
-        CharacterPattern[] patterns = new CharacterPattern[]{
-                new CharacterPattern('O', new String[]{
-                        "  *****  ",
-                        " *     * ",
-                        "*       *",
-                        "*       *",
-                        "*       *",
-                        " *     * ",
-                        "  *****  "
-                }),
-                new CharacterPattern('P', new String[]{
-                        " ******** ",
-                        " *       *",
-                        " *       *",
-                        " ******** ",
-                        " *        ",
-                        " *        ",
-                        " *        "
-                }),
-                new CharacterPattern('S', new String[]{
-                        "  ********",
-                        " *        ",
-                        " *        ",
-                        "  ********",
-                        "         *",
-                        "         *",
-                        " ******** "
-                })
-        };
+        Map<Character, String[]> patternMap = new HashMap<>();
+
+        patternMap.put('O', new String[]{
+                "  *****  ",
+                " *     * ",
+                "*       *",
+                "*       *",
+                "*       *",
+                " *     * ",
+                "  *****  "
+        });
+
+        patternMap.put('P', new String[]{
+                " ******** ",
+                " *       *",
+                " *       *",
+                " ******** ",
+                " *        ",
+                " *        ",
+                " *        "
+        });
+
+        patternMap.put('S', new String[]{
+                "  ********",
+                " *        ",
+                " *        ",
+                "  ********",
+                "         *",
+                "         *",
+                " ******** "
+        });
+
+        renderBanner(word, patternMap);
+    }
+
+    public static void renderBanner(String word, Map<Character, String[]> patternMap) {
 
         int height = 7;
 
@@ -43,34 +53,13 @@ public class Main {
             StringBuilder lineBuilder = new StringBuilder();
 
             for (char c : word.toCharArray()) {
-                for (CharacterPattern pattern : patterns) {
-                    if (pattern.getCharacter() == c) {
-                        lineBuilder.append(pattern.getPattern()[i]).append("   ");
-                    }
+                String[] pattern = patternMap.get(c);
+                if (pattern != null) {
+                    lineBuilder.append(pattern[i]).append("   ");
                 }
             }
 
             System.out.println(lineBuilder);
-        }
-    }
-
-    // Static Inner Class
-    static class CharacterPattern {
-
-        private char character;
-        private String[] pattern;
-
-        public CharacterPattern(char character, String[] pattern) {
-            this.character = character;
-            this.pattern = pattern;
-        }
-
-        public char getCharacter() {
-            return character;
-        }
-
-        public String[] getPattern() {
-            return pattern;
         }
     }
 }
