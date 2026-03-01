@@ -1,53 +1,76 @@
 public class Main {
 
     public static void main(String[] args) {
-        displayBanner();
+        displayBanner("OOPS");
     }
 
-    public static void displayBanner() {
+    public static void displayBanner(String word) {
 
-        String[] o = buildO();
-        String[] p = buildP();
-        String[] s = buildS();
+        CharacterPattern[] patterns = new CharacterPattern[]{
+                new CharacterPattern('O', new String[]{
+                        "  *****  ",
+                        " *     * ",
+                        "*       *",
+                        "*       *",
+                        "*       *",
+                        " *     * ",
+                        "  *****  "
+                }),
+                new CharacterPattern('P', new String[]{
+                        " ******** ",
+                        " *       *",
+                        " *       *",
+                        " ******** ",
+                        " *        ",
+                        " *        ",
+                        " *        "
+                }),
+                new CharacterPattern('S', new String[]{
+                        "  ********",
+                        " *        ",
+                        " *        ",
+                        "  ********",
+                        "         *",
+                        "         *",
+                        " ******** "
+                })
+        };
 
-        for (int i = 0; i < o.length; i++) {
-            System.out.println(o[i] + "   " + o[i] + "   " + p[i] + "   " + s[i]);
+        int height = 7;
+
+        for (int i = 0; i < height; i++) {
+
+            StringBuilder lineBuilder = new StringBuilder();
+
+            for (char c : word.toCharArray()) {
+                for (CharacterPattern pattern : patterns) {
+                    if (pattern.getCharacter() == c) {
+                        lineBuilder.append(pattern.getPattern()[i]).append("   ");
+                    }
+                }
+            }
+
+            System.out.println(lineBuilder);
         }
     }
 
-    public static String[] buildO() {
-        return new String[]{
-                "  *****  ",
-                " *     * ",
-                "*       *",
-                "*       *",
-                "*       *",
-                " *     * ",
-                "  *****  "
-        };
-    }
+    // Static Inner Class
+    static class CharacterPattern {
 
-    public static String[] buildP() {
-        return new String[]{
-                " ******** ",
-                " *       *",
-                " *       *",
-                " ******** ",
-                " *        ",
-                " *        ",
-                " *        "
-        };
-    }
+        private char character;
+        private String[] pattern;
 
-    public static String[] buildS() {
-        return new String[]{
-                "  ********",
-                " *        ",
-                " *        ",
-                "  ********",
-                "         *",
-                "         *",
-                " ******** "
-        };
+        public CharacterPattern(char character, String[] pattern) {
+            this.character = character;
+            this.pattern = pattern;
+        }
+
+        public char getCharacter() {
+            return character;
+        }
+
+        public String[] getPattern() {
+            return pattern;
+        }
     }
 }
